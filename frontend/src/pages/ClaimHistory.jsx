@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
+const baseUrl = import.meta.env.VITE_API_URL;
 
 const ClaimHistory = () => {
   const [claims, setClaims] = useState([]);
@@ -12,7 +13,7 @@ const ClaimHistory = () => {
     setLoading(true);
     try {
       const currentPage = pageRef.current;
-      const res = await axios.get(`http://localhost:8000/api/claim/history?page=${currentPage}&limit=10`);
+      const res = await axios.get(`${baseUrl}/api/claim/history?page=${currentPage}&limit=10`);
 
       setClaims((prev) => [...prev, ...res.data.data]);
       setHasMore(currentPage < res.data.totalPages);

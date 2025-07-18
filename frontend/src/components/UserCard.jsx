@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
+const baseUrl = import.meta.env.VITE_API_URL;
 
 export default function UserCard({ user, rank, refreshUsers }) {
   const [recentPoints, setRecentPoints] = useState(null);
@@ -9,7 +10,7 @@ export default function UserCard({ user, rank, refreshUsers }) {
 
   const handleClaim = async (id) => {
     try {
-      const res = await axios.post(`http://localhost:8000/api/claim/${id}`);
+      const res = await axios.post(`${baseUrl}/api/claim/${id}`);
       const gained = res.data.pointsClaimed;
       setRecentPoints(gained);
       setAnimating(true);

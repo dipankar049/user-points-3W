@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
+const baseUrl = import.meta.env.VITE_API_URL;
 
 const AddUserModal = ({ show, onClose, refreshUsers }) => {
   const [newUserName, setNewUserName] = useState("");
@@ -14,7 +15,7 @@ const AddUserModal = ({ show, onClose, refreshUsers }) => {
     }
     try {
       setLoading(true);
-      await axios.post("http://localhost:8000/api/users", {
+      await axios.post(`${baseUrl}/api/users`, {
         name: newUserName,
       });
       setNewUserName("");

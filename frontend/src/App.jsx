@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import AddUserModal from "./components/AddUserModal";
 import axios from "axios";
 import ClaimHistory from "./pages/ClaimHistory";
+const baseUrl = import.meta.env.VITE_API_URL;
 
 function App() {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -15,7 +16,7 @@ function App() {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:8000/api/users");
+      const res = await axios.get(`${baseUrl}/api/users`);
       const sorted = res.data.sort((a, b) => b.totalPoints - a.totalPoints);
       setUsers(sorted);
     } catch (err) {
