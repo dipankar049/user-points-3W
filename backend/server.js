@@ -10,11 +10,24 @@ dotenv.config();
 connectDB();
 
 const app = express();
-const allowedOrigin = process.env.CLIENT_URL || "http://localhost:5173";
-app.use(cors({
-  origin: allowedOrigin,
-  credentials: true,
-}));
+const whitelist = [
+  "http://localhost:5173",
+  "https://user-points-3-w.vercel.app"
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps, curl, etc.)
+    if (!origin || whitelist.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
