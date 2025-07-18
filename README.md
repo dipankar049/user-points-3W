@@ -4,7 +4,7 @@ A full-stack web application to manage users and allow daily point claiming with
 
 ## 🌐 Live Links
 
-- 
+- 🔗 [Click here to try the User Points System](https://user-points-3-w.vercel.app/)
 ---
 
 ## 📦 Features
