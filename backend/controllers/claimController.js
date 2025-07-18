@@ -40,24 +40,27 @@ exports.getLeaderboard = async (req, res) => {
 exports.getClaimHistory = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
 
   try {
-    const total = await ClaimHistory.countDocuments();
-    const history = await ClaimHistory.find()
-      .populate("userId", "name")
-      .sort({ claimedAt: -1 })
-      .skip((page - 1) * limit)
-      .limit(limit);
+    const [total, history] = await Promise.all([
+      ClaimHistory.countDocuments(),
+      ClaimHistory.find()
+        .populate("userId", "name")
+        .sort({ claimedAt: -1 })
+        .skip(skip)
+        .limit(limit)
+    ]);
 
-    res.json({
+    res.status(200).json({
+      data: history,
       total,
       page,
       limit,
       totalPages: Math.ceil(total / limit),
-      data: history,
     });
   } catch (err) {
-    res.status(500).json({ message: "Failed to fetch history" });
+    console.error("Claim history fetch error:", err);
+    res.status(500).json({ message: "Failed to fetch claim history" });
   }
 };
-

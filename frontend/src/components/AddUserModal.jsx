@@ -34,7 +34,7 @@ const AddUserModal = ({ show, onClose, refreshUsers }) => {
         <div className="fixed inset-0 flex items-center justify-center z-50">
           {/* Backdrop */}
           <motion.div
-            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/30"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -44,10 +44,10 @@ const AddUserModal = ({ show, onClose, refreshUsers }) => {
           {/* Modal */}
           <motion.div
             className="relative z-10 bg-white p-6 rounded-2xl shadow-2xl w-11/12 sm:w-96 border border-blue-100"
-            initial={{ opacity: 0, scale: 0.85 }}
+            initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            exit={{ opacity: 0, scale: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
           >
             {/* Close Button */}
             <button

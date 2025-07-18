@@ -5,13 +5,15 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function UserCard({ user, rank, refreshUsers }) {
   const [recentPoints, setRecentPoints] = useState(null);
   const [animating, setAnimating] = useState(false);
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
   const handleClaim = async (id) => {
     try {
       const res = await axios.post(`http://localhost:8000/api/claim/${id}`);
-      const gained = res.data.points;
+      const gained = res.data.pointsClaimed;
       setRecentPoints(gained);
       setAnimating(true);
+      await delay(500);
       await refreshUsers();
 
       setTimeout(() => {
@@ -34,9 +36,9 @@ export default function UserCard({ user, rank, refreshUsers }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.5 }}
       className="p-3 sm:p-4 rounded-xl bg-gradient-to-br from-white to-gray-50 shadow-md flex justify-between items-center border border-gray-200 hover:shadow-lg transition-all"
     >
       <div className="flex items-center gap-3 sm:gap-4">
@@ -65,10 +67,11 @@ export default function UserCard({ user, rank, refreshUsers }) {
             <AnimatePresence>
               {recentPoints !== null && (
                 <motion.span
-                  initial={{ opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  className="ml-2 text-green-600 font-semibold"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0 }}
+                  transition={{ duration: 0.8 }}
+                  className="ml-2 text-2xl text-green-600 font-semibold"
                 >
                   +{recentPoints}
                 </motion.span>
